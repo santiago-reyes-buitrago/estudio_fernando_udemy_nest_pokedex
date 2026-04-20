@@ -26,7 +26,7 @@ export class PokemonService {
         return this.pokemonModel.find();
     }
 
-    async findOne(id: string) {
+    async findOne(id: string): Promise<Pokemon> {
         let pokemon;
         if (!isNaN(+id)) {
             pokemon = await this.pokemonModel.findOne({id: +id})
@@ -40,11 +40,17 @@ export class PokemonService {
         return pokemon;
     }
 
-    update(id: number, updatePokemonDto: UpdatePokemonDto) {
-        return `This action updates a #${id} pokemon`;
+    async update(id: string, updatePokemonDto: UpdatePokemonDto) {
+        const pokemon = await this.findOne(id);
+        if (updatePokemonDto.name){
+            updatePokemonDto.name = updatePokemonDto.name.toLowerCase();
+        }
+        await pokemon.updateOne(updatePokemonDto,{new: true});
+        return pokemon;
     }
 
-    remove(id: number) {
-        return `This action removes a #${id} pokemon`;
+    async remove(id: string) {
+        const pokemon = await this.findOne(id);
+        return pokemon.deleteOne();
     }
 }
