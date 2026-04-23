@@ -49,6 +49,11 @@ export class PokemonService {
         return pokemon;
     }
 
+    bulkInsert(createPokemonDto: CreatePokemonDto[]){
+        if (createPokemonDto.length === 0) return;
+        return this.pokemonModel.insertMany(createPokemonDto);
+    }
+
     async remove(id: string) {
         // return this.pokemonModel.findOneAndDelete(id);
         const {deletedCount} = await this.pokemonModel.deleteOne({_id: id});
