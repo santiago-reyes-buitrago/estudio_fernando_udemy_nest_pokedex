@@ -1,12 +1,14 @@
-import {Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe} from '@nestjs/common';
+import {Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe, Query} from '@nestjs/common';
 import { PokemonService } from './pokemon.service';
 import { CreatePokemonDto } from './dto/create-pokemon.dto';
 import { UpdatePokemonDto } from './dto/update-pokemon.dto';
 import {ParseMongoIdPipe} from "../common/pipes/parse-mongo-id.pipe";
+import {QueryParamsDto} from "../common/dto/query-params.dto";
 
 @Controller('pokemon')
 export class PokemonController {
-  constructor(private readonly pokemonService: PokemonService) {}
+  constructor(private readonly pokemonService: PokemonService) {
+  }
 
   @Post()
   create(@Body() createPokemonDto: CreatePokemonDto) {
@@ -14,8 +16,8 @@ export class PokemonController {
   }
 
   @Get()
-  findAll() {
-    return this.pokemonService.findAll();
+  findAll(@Query() query: QueryParamsDto) {
+    return this.pokemonService.findAll(query);
   }
 
   @Get(':id')
