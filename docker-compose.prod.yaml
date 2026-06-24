@@ -6,7 +6,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: caoh29/pokedex-docker
+    image: pokedex-docker
     container_name: pokedexApp
     restart: always
     ports:
